@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/AlbertBrand/vue-context-composition"><img src="./lib/img/vue-context-composition.png" width="469" alt="Vue context composition" /></a>
+  <a href="https://github.com/AlbertBrand/vue-context-composition"><img src="./img/vue-context-composition.png" width="469" alt="Vue context composition" /></a>
 </p>
 <br/>
 
@@ -27,4 +27,20 @@
 Vue.js context composition makes sharing your composed state a breeze! It's the missing `useContext` hook from
 React, reimplemented for Vue.js 3.0.
 
-Read more about the library in the [README](lib/README.md).
+## Installation
+
+```bash
+npm install --save vue-context-composition
+```
+
+Or with Yarn:
+
+```bash
+yarn add vue-context-composition
+```
+
+## Usage
+
+...
+
+See the [examples](../examples) folder for a demo project with several examples.
