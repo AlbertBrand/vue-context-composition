@@ -29,9 +29,9 @@
     "preversion": "npm run check-git && npm run test:lint && npm test",
     "version": "npm run build && npm publish",
     "postversion": "VERSION=$(node -p \"require('./package.json').version\") && git add -A && git commit -m $VERSION && git tag v$VERSION -m '' && git push --follow-tags",
-    "lint": "eslint --fix src/** tests/** && prettier .*.js package.json tsconfig.json --write --loglevel warn",
+    "lint": "eslint --fix src/**/*.ts tests/**/*.ts && prettier .*.js package.json tsconfig.json tests/tsconfig.json --write --loglevel warn",
     "test": "jest",
-    "test:lint": "eslint --max-warnings 0 src/** tests/** && prettier .*.js package.json tsconfig.json --check",
+    "test:lint": "eslint --max-warnings 0 src/**/*.ts tests/**/*.ts && prettier .*.js package.json tsconfig.json tests/tsconfig.json --check",
     "test:cov": "jest --coverage"
   },
   "peerDependencies": {
