@@ -43,4 +43,4 @@ yarn add vue-context-composition
 
 ...
 
-See the [examples](../examples) folder for a demo project with several examples.
+See the [example Vue3 project](../example-project) folder for a project with several examples.
