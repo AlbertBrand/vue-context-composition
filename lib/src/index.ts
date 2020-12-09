@@ -26,9 +26,10 @@ type ContextDefinition<C> = {
  *   }
  * });
  *
- * @param newContextFn Function that creates the context. Make it return an object just as any
- * other setup() function.
- * @returns A context definition object that is used by `provideContext` and `useContext`.
+ * @param {NewContextFn<C>} newContextFn Function that creates the context. Make it return an
+ * object just as any other setup() function.
+ * @returns {ContextDefinition<C>} A context definition object that is used by `provideContext`
+ * and `useContext`.
  */
 export function defineContext<C>(
   newContextFn: NewContextFn<C>
@@ -37,6 +38,27 @@ export function defineContext<C>(
     injectionKey: Symbol(),
     newContextFn,
   };
+}
+
+/**
+ * Create a context that can be provided to all components in the application setup.
+ *
+ * @example
+ * import { userName } from '@contexts/user';
+ *
+ * createApp(App)
+ *   .provide(...createContext(userName))
+ *   .mount('#app');
+ *
+ * @param {ContextDefinition<C>} contextDefinition The context definition object created by
+ * `defineContext`.
+ * @returns {[InjectionKey<C>, C]} The injection key and the newly created context.
+ */
+export function createContext<C>({
+  injectionKey,
+  newContextFn,
+}: ContextDefinition<C>): [InjectionKey<C>, C] {
+  return [injectionKey, newContextFn()];
 }
 
 /**
@@ -52,13 +74,13 @@ export function defineContext<C>(
  *   },
  * });
  *
- * @param contextDefinition The context definition object created by `defineContext`.
+ * @param {ContextDefinition<C>} contextDefinition The context definition object created by
+ * `defineContext`.
  */
-export function provideContext<C>({
-  injectionKey,
-  newContextFn,
-}: ContextDefinition<C>): void {
-  provide(injectionKey, newContextFn());
+export function provideContext<C>(
+  contextDefinition: ContextDefinition<C>
+): void {
+  provide(...createContext(contextDefinition));
 }
 
 /**
@@ -77,13 +99,14 @@ export function provideContext<C>({
  *   },
  * });
  *
- * @param contextDefinition The context definition object created by `defineContext`.
+ * @param {ContextDefinition<C>} contextDefinition The context definition object created by
+ * `defineContext`.
  */
 export function useContext<C>({ injectionKey }: ContextDefinition<C>): C {
   const context = inject(injectionKey);
   if (!context) {
     throw Error(
-      "Could not inject context, was it provided in an ancestor component?"
+      "Could not inject context, was it provided in an ancestor component or from the application?"
     );
   }
   return context;
