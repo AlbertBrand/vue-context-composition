@@ -1,7 +1,8 @@
 <p align="center">
-  <a href="https://github.com/AlbertBrand/vue-context-composition"><img src="./img/vue-context-composition.png" width="469" alt="Vue context composition" /></a>
+  <a href="https://github.com/AlbertBrand/vue-context-composition">
+    <img src="./img/vue-context-composition.png" width="469" alt="Vue context composition" />
+  </a>
 </p>
-<br/>
 
 <p align="center">
   <a href="https://www.npmjs.com/package/vue-context-composition">
@@ -24,8 +25,8 @@
   </a>
 </p>
 
-Vue.js context composition makes sharing your composed state a breeze! It's the missing `useContext` hook from
-React, reimplemented for Vue.js 3.0.
+`vue-context-composition` makes sharing your composed state a breeze! It's the missing `useContext`
+hook from React, reimplemented for Vue.js 3.0.
 
 ## Installation
 
@@ -41,6 +42,72 @@ yarn add vue-context-composition
 
 ## Usage
 
-...
+### defineContext
+
+Define a context that can be provided and used in the component hierarchy. Pass in a create function
+that will be run as part of `setup()`. All Vue reactive methods such as `computed` may be used.
+
+```ts
+export const userNameCtx = defineContext(() => {
+  const userName = ref("");
+  const uppercaseUserName = computed(() => userName.value.toUpperCase());
+  const setUserName = (name) => {
+    userName.value = name;
+  };
+  return {
+    userName: readonly(userName),
+    uppercaseUserName,
+    setUserName,
+  };
+});
+```
+
+### provideContext
+
+Provide context from a component in the hierarchy. All descendant components can then use that
+context.
+
+```ts
+import { userName } from "@contexts/user";
+
+export default defineComponent({
+  setup() {
+    provideContext(userName);
+  },
+});
+```
+
+### createContext
+
+Shorthand function to create a context that can be provided to all components in the application
+setup.
+
+```ts
+import { userName } from "@contexts/user";
+
+createApp(App)
+  .provide(...createContext(userName))
+  .mount("#app");
+```
+
+### useContext
+
+Use context provided in an ancestor component or in application setup.
+
+```ts
+import { userName } from "@contexts/user";
+
+export default defineComponent({
+  setup() {
+    const { uppercaseUserName, setUserName } = useContext(userName);
+    return {
+      uppercaseUserName,
+      setUserName,
+    };
+  },
+});
+```
+
+## Example project
 
 See the [example Vue3 project](../example-project) folder for a project with several examples.
