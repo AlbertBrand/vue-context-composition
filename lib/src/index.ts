@@ -76,6 +76,7 @@ export function createContext<C>({
  *
  * @param {ContextDefinition<C>} contextDefinition The context definition object created by
  * `defineContext`.
+ * @returns {void}
  */
 export function provideContext<C>(
   contextDefinition: ContextDefinition<C>
@@ -101,6 +102,7 @@ export function provideContext<C>(
  *
  * @param {ContextDefinition<C>} contextDefinition The context definition object created by
  * `defineContext`.
+ * @returns {C} The context from the first ancestor of this component that provides it.
  */
 export function useContext<C>({ injectionKey }: ContextDefinition<C>): C {
   const context = inject(injectionKey);
