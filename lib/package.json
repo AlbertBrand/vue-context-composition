@@ -19,15 +19,14 @@
     "composition",
     "typescript"
   ],
-  "main": "dist/index.js",
+  "main": "./lib/node/index.js",
   "scripts": {
     "type-check": "tsc --noEmit",
-    "build": "npm run build:types && npm run build:js",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir dist --extensions \".ts\" --source-maps",
-    "check-git": "[[ -z $(git status --porcelain) ]] || (echo 'Repo not clean'; false)",
-    "preversion": "npm run check-git && npm run test:lint && npm test",
-    "version": "npm run build && npm publish",
+    "build": "packemon build --addEngines",
+    "validate": "packemon validate",
+    "pack": "NODE_ENV=production packemon pack --addEngines --declaration=standard",
+    "preversion": "git-is-clean && npm run test:lint && npm test",
+    "version": "npm run pack && npm publish",
     "postversion": "VERSION=$(node -p \"require('./package.json').version\") && git add -A && git commit -m $VERSION && git tag v$VERSION -m '' && git push --follow-tags",
     "lint": "eslint --fix src/**/*.ts tests/**/*.ts && prettier .*.js package.json tsconfig.json tests/tsconfig.json --write --loglevel warn",
     "test": "jest",
@@ -53,10 +52,29 @@
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.2.0",
     "flush-promises": "^1.0.2",
+    "git-is-clean": "^3.0.1",
     "jest": "^26.6.3",
+    "packemon": "^0.14.3",
     "prettier": "^2.2.1",
     "typescript": "^4.1.2",
     "vue": "^3.0.2",
     "vue-jest": "^5.0.0-alpha.6"
-  }
+  },
+  "packemon": {
+    "platform": [
+      "browser",
+      "node"
+    ]
+  },
+  "engines": {
+    "node": ">=10.3.0",
+    "npm": ">=6.1.0"
+  },
+  "module": "./esm/index.js",
+  "browser": "./lib/browser/index.js",
+  "files": [
+    "esm/**/*.{js,map}",
+    "lib/**/*.{js,map}",
+    "src/**/*.{ts,tsx,json}"
+  ]
 }
