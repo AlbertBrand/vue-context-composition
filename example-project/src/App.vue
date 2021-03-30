@@ -58,13 +58,13 @@ import { useContext } from "vue-context-composition";
 import CounterChild from "@/components/CounterChild.vue";
 import CounterProvider from "@/components/CounterProvider.vue";
 import CounterDouble from "./components/CounterDouble.vue";
-import { counter as counterDef } from "@/contexts/counter";
+import { counterCtx } from "@/contexts/counter";
 
 export default defineComponent({
   components: { CounterChild, CounterProvider, CounterDouble },
   name: "App",
   setup() {
-    const { counter, increment } = useContext(counterDef);
+    const { counter, increment } = useContext(counterCtx);
 
     const trySetCounter = () => {
       // @ts-ignore

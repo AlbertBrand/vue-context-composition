@@ -6,12 +6,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useContext } from "vue-context-composition";
-import { counter as counterDef } from "@/contexts/counter";
+import { counterCtx } from "@/contexts/counter";
 
 export default defineComponent({
   name: "CounterChild",
   setup() {
-    const { counter, increment } = useContext(counterDef);
+    const { counter, increment } = useContext(counterCtx);
 
     return {
       counter,

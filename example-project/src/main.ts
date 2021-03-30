@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import { createContext } from "vue-context-composition";
 import App from "./App.vue";
-import { counter } from "./contexts/counter";
+import { counterCtx } from "./contexts/counter";
 
 createApp(App)
-  .provide(...createContext(counter))
+  .provide(...createContext(counterCtx))
   .mount("#app");
