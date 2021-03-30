@@ -24,10 +24,10 @@
     "type-check": "tsc --noEmit",
     "build": "packemon build --addEngines",
     "validate": "packemon validate",
-    "pack": "NODE_ENV=production packemon pack --addEngines --declaration=standard",
+    "pack": "cross-env NODE_ENV=production packemon pack --addEngines --declaration=standard",
     "preversion": "git-is-clean && npm run test:lint && npm test",
     "version": "npm run pack && npm publish",
-    "postversion": "VERSION=$(node -p \"require('./package.json').version\") && git add -A && git commit -m $VERSION && git tag v$VERSION -m '' && git push --follow-tags",
+    "postversion": "cross-env VERSION=$(node -p \"require('./package.json').version\") && git add -A && git commit -m $VERSION && git tag v$VERSION -m '' && git push --follow-tags",
     "lint": "eslint --fix src/**/*.ts tests/**/*.ts && prettier .*.js package.json tsconfig.json tests/tsconfig.json --write --loglevel warn",
     "test": "jest",
     "test:lint": "eslint --max-warnings 0 src/**/*.ts tests/**/*.ts && prettier .*.js package.json tsconfig.json tests/tsconfig.json --check",
@@ -48,6 +48,7 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^26.6.3",
     "core-js": "^3.8.1",
+    "cross-env": "^7.0.3",
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-prettier": "^3.2.0",
@@ -73,8 +74,10 @@
   "module": "./esm/index.js",
   "browser": "./lib/browser/index.js",
   "files": [
+    "dts/**/*.d.ts",
     "esm/**/*.{js,map}",
     "lib/**/*.{js,map}",
     "src/**/*.{ts,tsx,json}"
-  ]
+  ],
+  "types": "./dts/index.d.ts"
 }

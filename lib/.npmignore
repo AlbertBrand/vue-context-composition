@@ -1,9 +1,0 @@
-/coverage
-/examples
-/img
-/tests
-.DS_Store
-.eslintrc.js
-.prettierrc.js
-babel.config.js
-tsconfig.json
