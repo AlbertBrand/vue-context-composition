@@ -2,10 +2,12 @@ import { inject, InjectionKey, provide } from "vue";
 
 type NewContextFn<C> = () => C;
 
-type ContextDefinition<C> = {
+export type ContextDefinition<C> = {
   injectionKey: InjectionKey<C>;
   newContextFn: () => C;
 };
+
+export type ContextType<P> = P extends ContextDefinition<infer C> ? C : never;
 
 /**
  * Define a context that can be provided and used in the component hierarchy. Pass in a create
